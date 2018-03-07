@@ -1,5 +1,3 @@
-#include <iostream>
-
 // macros for each type of square on a map
 #define EMPTY 0
 #define SHIP 1
@@ -86,7 +84,7 @@ OceanModel::OceanModel(){
 }
 
 void OceanModel::changeTile(int x, int y, int type){
-	oceanArray[x][y] = type; 
+	oceanArray[y][x] = type; 
 }
 
 
@@ -100,7 +98,7 @@ class userOceanModel : public OceanModel{
 };
 
 userOceanModel::userOceanModel(){
-	OceanModel();
+	// calls empty default constructor automatically
 }
 
 void userOceanModel::importShip(Ship& toAdd){
@@ -109,7 +107,7 @@ void userOceanModel::importShip(Ship& toAdd){
 			cout << "Ship is not in bounds" << endl;
 		}
 		else if(!checkIfOccupied(toAdd.getStartX(), toAdd.getStartY(), toAdd.getOrientation(), toAdd.getSize())){
-			cout << "You are trying to place the ship in tiles that are already occupied" << endl;
+			cout << "You are trying to place the ship on tiles that are already occupied" << endl;
 		}
 		else{
 			for(int i = toAdd.getStartY(); i < toAdd.getStartY() + toAdd.getSize(); i++){
@@ -122,7 +120,7 @@ void userOceanModel::importShip(Ship& toAdd){
 			cout << "The Ship is not in bounds" << endl;
 		}
 		else if(!checkIfOccupied(toAdd.getStartX(), toAdd.getStartY(), toAdd.getOrientation(), toAdd.getSize())){
-			cout << "You are trying to place the ship in tiles that are alrady occupied" << endl;
+			cout << "You are trying to place the ship on tiles that are alrady occupied" << endl;
 		}
 		else{
 			for(int i = toAdd.getStartX(); i < toAdd.getStartX() + toAdd.getSize(); i++){
@@ -136,7 +134,7 @@ void userOceanModel::importShip(Ship& toAdd){
 bool userOceanModel::checkIfOccupied(int startX, int startY, bool orientation, int size){
 	if(orientation == VERT){
 		for(int i = startY; i < startY + size; i++){
-			if(oceanArray[startX][i] == SHIP){
+			if(oceanArray[i][startX] == SHIP){
 				return false;
 			}
 		}
@@ -144,7 +142,7 @@ bool userOceanModel::checkIfOccupied(int startX, int startY, bool orientation, i
 	}
 	else{
 		for(int i = startX; i < startX + size; i++){
-			if(oceanArray[i][startY] == SHIP){
+			if(oceanArray[startY][i] == SHIP){
 				return false;
 			}
 		}
@@ -160,9 +158,8 @@ class enemyOceanModel : public OceanModel{
 		void markMiss(int xPos, int yPos);
 };
 
-// constructor
 enemyOceanModel::enemyOceanModel(){
-	OceanModel();
+	// calls empty default constructor automatically
 }
 
 
