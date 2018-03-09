@@ -1,3 +1,6 @@
+#include <iostream>
+#include "model.h"
+
 // macros for each type of square on a map
 #define EMPTY 0
 #define SHIP 1
@@ -10,26 +13,6 @@
 
 using namespace std;
 
-
-//class for the ships
-class Ship{
-	public:
-		Ship(int s, bool o, int sX, int sY);
-
-		int getSize();
-		bool getOrientation();
-		int getStartX(); 
-		int getStartY();
-		int getLife();
-		void takeLife();
-
-	private:
-		int size;
-		bool orientation;
-		int startX; 
-		int startY;
-		int life; 
-};
 
 Ship::Ship(int s, bool o, int sX, int sY){
 	size = life = s;
@@ -63,18 +46,6 @@ void Ship::takeLife(){
 }
 
 
-// base class for the ocean model
-class OceanModel{
-	public:
-		// Default Contructor for the Ocean Model
-		OceanModel();
-
-		void changeTile(int x, int y, int type);
-
-	protected:
-		// Array representation of the Ocean
-		int oceanArray[10][10];
-};
 OceanModel::OceanModel(){
 	for(int i = 0; i < 10; i++){
 		for(int j = 0; j < 10; j++){
@@ -87,15 +58,9 @@ void OceanModel::changeTile(int x, int y, int type){
 	oceanArray[y][x] = type; 
 }
 
-
-
-// class for the User ocean
-class userOceanModel : public OceanModel{
-	public:
-		userOceanModel();
-		bool checkIfOccupied(int startX, int startY, bool orientation, int size);
-		void importShip(Ship& toAdd);
-};
+int OceanModel::getTile(int x, int y){
+	return oceanArray[y][x];
+}
 
 userOceanModel::userOceanModel(){
 	// calls empty default constructor automatically
@@ -149,14 +114,6 @@ bool userOceanModel::checkIfOccupied(int startX, int startY, bool orientation, i
 		return true;
 	}
 }
-
-// class for the enemy ocean
-class enemyOceanModel : public OceanModel{
-	public:
-		enemyOceanModel();
-		void markHit(int xPos, int yPos);
-		void markMiss(int xPos, int yPos);
-};
 
 enemyOceanModel::enemyOceanModel(){
 	// calls empty default constructor automatically
