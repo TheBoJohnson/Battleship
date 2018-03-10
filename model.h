@@ -13,12 +13,22 @@ class Ship{
 		int getLife();
 		void takeLife();
 
+		//helper methods
+		static bool checkIfInBounds(int size, bool orientation, int startX, int startY); 
+
+
 	private:
 		int size;
 		bool orientation;
 		int startX; 
 		int startY;
-		int life; 
+		int life;
+		int squares[size][2];
+
+		// helper methods
+		void setUpSquares();
+		
+		
 };
 
 // base class for the ocean model

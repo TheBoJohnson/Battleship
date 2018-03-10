@@ -45,6 +45,34 @@ void Ship::takeLife(){
 	life--;
 }
 
+static bool Ship::checkIfInBounds(int size, bool orientation, int startX, int startY){
+	if(size + startY > 9 || size + startX > 9){
+		cout << "Ship is not in bounds" << endl;
+		return false;
+	}
+
+	return true;
+}
+
+void Ship::setUpSquares(){
+	if(orientation == VERT){
+		for(int i = 0; i < size; i++){
+			for(int j = startY; j < startY + size; j++){
+				squares[i][0] = startX;
+				squares[i][1] = j;
+			}
+		}
+
+	}
+	else{
+		for(int i = 0; i < size; i++){
+			for(int j = startX; j < startX + size; j++){
+				squares[i][0] = j;
+				squares[i][1] = startY;
+			}
+		}
+	}
+}
 
 OceanModel::OceanModel(){
 	for(int i = 0; i < 10; i++){
@@ -68,30 +96,15 @@ userOceanModel::userOceanModel(){
 
 void userOceanModel::importShip(Ship& toAdd){
 	if(toAdd.getOrientation() == VERT){
-		if(toAdd.getSize() + toAdd.getStartY() > 9){
-			cout << "Ship is not in bounds" << endl;
-		}
-		else if(!checkIfOccupied(toAdd.getStartX(), toAdd.getStartY(), toAdd.getOrientation(), toAdd.getSize())){
-			cout << "You are trying to place the ship on tiles that are already occupied" << endl;
-		}
-		else{
-			for(int i = toAdd.getStartY(); i < toAdd.getStartY() + toAdd.getSize(); i++){
-				oceanArray[i][toAdd.getStartX()] = SHIP;
-			}
+		for(int i = toAdd.getStartY(); i < toAdd.getStartY() + toAdd.getSize(); i++){
+			oceanArray[i][toAdd.getStartX()] = SHIP;
 		}
 	}
 	else{
-		if(toAdd.getSize() + toAdd.getStartX() > 9){
-			cout << "The Ship is not in bounds" << endl;
+		for(int i = toAdd.getStartX(); i < toAdd.getStartX() + toAdd.getSize(); i++){
+			oceanArray[toAdd.getStartY()][i] = SHIP;
 		}
-		else if(!checkIfOccupied(toAdd.getStartX(), toAdd.getStartY(), toAdd.getOrientation(), toAdd.getSize())){
-			cout << "You are trying to place the ship on tiles that are alrady occupied" << endl;
-		}
-		else{
-			for(int i = toAdd.getStartX(); i < toAdd.getStartX() + toAdd.getSize(); i++){
-				oceanArray[toAdd.getStartY()][i] = SHIP;
-			}
-		}
+
 	}
 }
 
