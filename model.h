@@ -1,10 +1,12 @@
 #ifndef HEADERFILE_model
 #define HEADERFILE_model
 
+#include <string>
+
 //class for the ships
 class Ship{
 	public:
-		Ship(int s, bool o, int sX, int sY);
+		Ship(std::string name, int s, bool o, int sX, int sY);
 
 		int getSize();
 		bool getOrientation();
@@ -12,24 +14,51 @@ class Ship{
 		int getStartY();
 		int getLife();
 		void takeLife();
+		std::string getName();
 
 		//helper methods
 		static bool checkIfInBounds(int size, bool orientation, int startX, int startY); 
 
 
-	private:
+	protected:
 		int size;
 		bool orientation;
 		int startX; 
 		int startY;
 		int life;
-		int squares[size][2];
+		std::string name;
+		int* squares[][2];
 
 		// helper methods
 		void setUpSquares();
 		
 		
 };
+
+class Destroyer : public Ship{
+
+};
+
+
+class Submarine : public Ship{
+
+};
+
+class Cruiser : public Ship{
+
+};
+
+
+class Battleship : public Ship{
+
+};
+
+class Carrier : public Ship{
+
+};
+
+
+
 
 // base class for the ocean model
 class OceanModel{

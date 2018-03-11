@@ -3,6 +3,16 @@
 #include "model.h"
 #include "view.h"
 
+// macros for each type of square on a map
+#define EMPTY 0
+#define SHIP 1
+#define HIT 2
+#define MISS 3
+
+// macros for the orientation that ships can have
+#define HORIZ true
+#define VERT false
+
 using namespace std;
 
 /*
@@ -72,8 +82,8 @@ class Game{
 		int cpuNumShots = 0;
 
 		// Arrays for ships 
-		Ships userShips[5];
-		Ships cpuShips[5];
+		Ship userShips[5];
+		Ship cpuShips[5];
 
 		// Players Maps
 		userOceanModel playersOceanTiles; 
@@ -81,7 +91,7 @@ class Game{
 
 		// CPU Maps
 		userOceanModel cpuOceanTiles; 
-		ememyOceanModel cpuShootingTiles;
+		enemyOceanModel cpuShootingTiles;
 };
 
 
@@ -98,15 +108,111 @@ void Game::placeCpuShips(){
 }
 
 
-void placeUserShips(){
+void Game::placeUserShips(){
 	bool isDone = false;
 	int state = 0;
+
+	//
+	char input;
+	int inputSize; 
+	bool inputOrientation;
+	int inputX; 
+	int inputY;
 
 	while(!isDone){
 		switch(state){
 			case 0:
+				inputSize = 2;
+
 				cout << "Place your Destroyer (2)." << endl;
 				// check if valid square and place. If it is iterate state
+
+				cout << "What X Pos (1-10)?" << endl;
+				cin >> inputX; 
+				inputX--;
+
+				cout << "What Y Pos (A-J)?" << endl;
+				cin >> input; 
+
+				switch(input){
+					case 'A':
+
+					case 'a':
+						inputY = 0;
+						break;
+
+					case 'B':
+	
+					case 'b':
+						inputY = 1;
+						break;
+
+					case 'C':
+
+					case 'c':
+						inputY = 2;
+						break;
+
+					case 'D':
+
+					case 'd':
+						inputY = 3;
+						break;
+
+					case 'E':
+
+					case 'e':
+						inputY = 4;
+						break;
+
+					case 'F':
+
+					case 'f':
+						inputY = 5;
+						break;
+
+					case 'G':
+
+					case 'g':
+						inputY = 6;
+						break;
+
+					case 'H':
+		
+					case 'h':
+						inputY = 7;
+						break;
+
+					case 'I':
+	
+					case 'i':
+						inputY = 8;
+						break;
+
+					case 'J':
+
+					case 'j':
+						inputY = 9;
+						break;	
+				}
+
+				cout << "What orientation? (H for Horizonaal V for Vertical)" << endl;
+				cin >> input;
+
+				if(input == 'V' || input == 'v'){
+					inputOrientation = VERT;
+				}
+				else{
+					inputOrientation = HORIZ; 
+				}
+
+				if(Ship::checkIfInBounds(inputSize, inputOrientation, inputX, inputY) && playersOceanTiles.checkIfOccupied(inputX, inputY, inputOrientation, inputSize)){
+					userShips[state++] = Ship("Destroyer", inputSize, inputOrientation, inputX, inputY);
+				}
+				else{
+					cout << "Oops you made an error placing the ships try again" << endl;
+				}
+
 				break;
 			case 1:
 				cout << "Place your submarine (3)" << endl;

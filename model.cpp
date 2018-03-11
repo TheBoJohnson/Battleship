@@ -1,4 +1,6 @@
 #include <iostream>
+#include <string> 
+
 #include "model.h"
 
 // macros for each type of square on a map
@@ -14,11 +16,16 @@
 using namespace std;
 
 
-Ship::Ship(int s, bool o, int sX, int sY){
+Ship::Ship(string n, int s, bool o, int sX, int sY){
+	name = n;
 	size = life = s;
 	orientation = o;
 	startX = sX; 
 	startY = sY;
+
+	squares = new int[size][2];
+
+	setUpSquares();
 }
 
 int Ship::getSize(){
@@ -39,6 +46,10 @@ int Ship::getStartY(){
 
 int Ship::getLife(){
 	return life; 
+}
+
+string Ship::getName(){
+	return name;
 }
 
 void Ship::takeLife(){
